@@ -41,7 +41,7 @@
           "title": "Frontend (Next.js + Three.js)",
           "priority": "critical",
           "status": "in progress",
-          "progress": 40,
+          "progress": 85,
           "estimatedTokens": 15000,
           "description": "Web client with 3D agent visualization, battle UI, queue"
         },
@@ -59,7 +59,7 @@
           "title": "Testing & Balance",
           "priority": "high",
           "status": "todo",
-          "progress": 0,
+          "progress": 20,
           "estimatedTokens": 5000,
           "description": "Battle simulations, exploit testing, class balance"
         },
