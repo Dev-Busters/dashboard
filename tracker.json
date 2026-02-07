@@ -41,7 +41,7 @@
           "title": "Frontend (Next.js + Three.js)",
           "priority": "critical",
           "status": "in progress",
-          "progress": 5,
+          "progress": 40,
           "estimatedTokens": 15000,
           "description": "Web client with 3D agent visualization, battle UI, queue"
         },
