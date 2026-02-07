@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buster's Command Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            color: #e0e0e0;
+            padding: 16px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #40e0d0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #40e0d0;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #a0a0b0;
+            font-size: 0.95em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(64, 224, 208, 0.05);
+            border: 1px solid rgba(64, 224, 208, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(64, 224, 208, 0.5);
+            background: rgba(64, 224, 208, 0.1);
+        }
+
+        .stat-label {
+            color: #a0a0b0;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            color: #40e0d0;
+            font-weight: bold;
+        }
+
+        .stat-subtext {
+            color: #707080;
+            font-size: 0.8em;
+            margin-top: 8px;
+        }
+
+        .project-section {
+            margin-bottom: 40px;
+        }
+
+        .project-title {
+            font-size: 1.8em;
+            color: #40e0d0;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(64, 224, 208, 0.3);
+        }
+
+        .tasks-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #e0e0e0;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(64, 224, 208, 0.2);
+        }
+
+        .task-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(64, 224, 208, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .task-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(64, 224, 208, 0.3);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .task-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #e0e0e0;
+            flex: 1;
+        }
+
+        .priority-badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .priority-critical {
+            background: rgba(255, 71, 87, 0.3);
+            color: #ff4757;
+            border: 1px solid #ff4757;
+        }
+
+        .priority-high {
+            background: rgba(255, 152, 0, 0.3);
+            color: #ff9800;
+            border: 1px solid #ff9800;
+        }
+
+        .priority-medium {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+
+        .priority-low {
+            background: rgba(76, 175, 80, 0.2);
+            color: #90c090;
+            border: 1px solid #90c090;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #a0a0b0;
+        }
+
+        .meta-label {
+            color: #707080;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(64, 224, 208, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #40e0d0, #00bfff);
+            transition: width 0.3s ease;
+        }
+
+        .token-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            font-size: 0.9em;
+        }
+
+        .token-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 4px;
+            border-left: 2px solid #40e0d0;
+        }
+
+        .token-label {
+            color: #a0a0b0;
+            font-size: 0.8em;
+        }
+
+        .token-value {
+            color: #40e0d0;
+            font-weight: 600;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: rgba(64, 224, 208, 0.1);
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            color: #40e0d0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: rgba(64, 224, 208, 0.2);
+            border-color: rgba(64, 224, 208, 0.6);
+        }
+
+        .filter-btn.active {
+            background: rgba(64, 224, 208, 0.3);
+            border-color: #40e0d0;
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #707080;
+            font-size: 0.8em;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(64, 224, 208, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .task-header {
+                flex-direction: column;
+            }
+
+            .priority-badge {
+                align-self: flex-start;
+            }
+
+            .token-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔧 Buster's Command Center</h1>
+            <p class="subtitle">Projects • Tasks • Progress • Token Usage</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Tasks</div>
+                <div class="stat-value" id="totalTasks">0</div>
+                <div class="stat-subtext"><span id="activeTasks">0</span> active</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Token Usage (All Sessions)</div>
+                <div class="stat-value" id="tokenUsage">0</div>
+                <div class="stat-subtext">Haiku model</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Estimated to Complete</div>
+                <div class="stat-value" id="estimatedTokens">0</div>
+                <div class="stat-subtext">Based on active tasks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Overall Progress</div>
+                <div class="stat-value" id="overallProgress">0%</div>
+                <div class="stat-subtext"><span id="completedTasks">0</span> / <span id="totalTasksSmall">0</span></div>
+            </div>
+        </div>
+
+        <div id="projectsContainer"></div>
+
+        <div class="last-updated">
+            Last updated: <span id="lastUpdated">Never</span>
+            <br>
+            <small>Data pulled from tracker.json — refresh the page for latest</small>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('./tracker.json');
+                const data = await response.json();
+                renderDashboard(data);
+            } catch (e) {
+                console.error('Failed to load tracker.json:', e);
+                document.body.innerHTML += '<p style="text-align: center; color: red; margin-top: 40px;">Failed to load dashboard data. Make sure tracker.json exists.</p>';
+            }
+        }
+
+        function renderDashboard(data) {
+            let totalTasks = 0;
+            let activeTasks = 0;
+            let completedTasks = 0;
+            let totalTokens = 0;
+            let totalEstimated = 0;
+
+            const projectsContainer = document.getElementById('projectsContainer');
+            projectsContainer.innerHTML = '';
+
+            // Process each project
+            Object.entries(data.projects || {}).forEach(([key, project]) => {
+                if (!project.tasks || project.tasks.length === 0) return;
+
+                totalTasks += project.tasks.length;
+                
+                const completed = project.tasks.filter(t => t.status === 'done').length;
+                const active = project.tasks.filter(t => t.status === 'in progress').length;
+                const estimated = project.tasks
+                    .filter(t => t.status !== 'done')
+                    .reduce((sum, t) => sum + (t.estimatedTokens * (100 - (t.progress || 0)) / 100), 0);
+
+                completedTasks += completed;
+                activeTasks += active;
+                totalEstimated += estimated;
+
+                const projectHTML = `
+                    <div class="project-section">
+                        <h2 class="project-title">${project.emoji || '📋'} ${project.name}</h2>
+                        
+                        <div class="tasks-section">
+                            <div class="filter-buttons">
+                                <button class="filter-btn active">All (${project.tasks.length})</button>
+                                <button class="filter-btn">${active} In Progress</button>
+                                <button class="filter-btn">${completed} Done</button>
+                            </div>
+                            <div class="task-list">
+                                ${project.tasks.map(task => `
+                                    <div class="task-card">
+                                        <div class="task-header">
+                                            <div class="task-title">${getStatusEmoji(task.status)} ${task.title}</div>
+                                            ${task.priority ? `<div class="priority-badge priority-${task.priority}">${task.priority.toUpperCase()}</div>` : ''}
+                                        </div>
+                                        <div class="task-meta">
+                                            <div class="meta-item"><span class="meta-label">Status:</span> <span>${task.status}</span></div>
+                                            <div class="meta-item"><span class="meta-label">Progress:</span> <span>${task.progress || 0}%</span></div>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: ${task.progress || 0}%"></div>
+                                        </div>
+                                        ${task.description ? `<p style="color: #a0a0b0; font-size: 0.9em; margin-bottom: 12px;">${task.description}</p>` : ''}
+                                        ${task.estimatedTokens ? `
+                                            <div class="token-info">
+                                                <div class="token-item">
+                                                    <div class="token-label">Est. Tokens</div>
+                                                    <div class="token-value">${task.estimatedTokens.toLocaleString()}</div>
+                                                </div>
+                                                <div class="token-item">
+                                                    <div class="token-label">Per % Complete</div>
+                                                    <div class="token-value">${Math.round(task.estimatedTokens / 100).toLocaleString()}</div>
+                                                </div>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                projectsContainer.innerHTML += projectHTML;
+            });
+
+            // Count tokens across sessions
+            if (data.sessions) {
+                Object.values(data.sessions).forEach(session => {
+                    totalTokens += session.currentTokens || 0;
+                });
+            }
+
+            // Update stats
+            document.getElementById('totalTasks').textContent = totalTasks;
+            document.getElementById('activeTasks').textContent = activeTasks;
+            document.getElementById('completedTasks').textContent = completedTasks;
+            document.getElementById('totalTasksSmall').textContent = totalTasks;
+            document.getElementById('overallProgress').textContent = totalTasks > 0 ? `${Math.round(completedTasks / totalTasks * 100)}%` : '0%';
+            document.getElementById('tokenUsage').textContent = totalTokens.toLocaleString();
+            document.getElementById('estimatedTokens').textContent = Math.round(totalEstimated).toLocaleString();
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function getStatusEmoji(status) {
+            const emojis = {
+                'todo': '📋',
+                'in progress': '⚙️',
+                'in review': '👀',
+                'done': '✅'
+            };
+            return emojis[status] || '❓';
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+{
+  "metadata": {
+    "lastUpdated": "2026-02-06T18:00:00Z",
+    "defaultModel": "haiku",
+    "description": "Buster's unified task and token tracking for all projects"
+  },
+  "sessions": {
+    "main": {
+      "name": "Main Terminal Session",
+      "currentTokens": 27000,
+      "model": "haiku",
+      "status": "active"
+    },
+    "discord": {
+      "name": "Discord Bot",
+      "currentTokens": 0,
+      "model": "haiku",
+      "status": "active",
+      "note": "Recently reset and switched to Haiku from Opus"
+    }
+  },
+  "projects": {
+    "agent-arena": {
+      "name": "Agent Arena",
+      "emoji": "🎮",
+      "description": "MMORPG for AI agents - battles, leveling, leaderboards",
+      "url": "https://github.com/Dev-Busters/agent-arena",
+      "tasks": [
+        {
+          "id": 1,
+          "title": "Build task dashboard",
+          "priority": "critical",
+          "status": "done",
+          "progress": 100,
+          "estimatedTokens": 5000,
+          "description": "Create mobile-friendly dashboard for tracking work"
+        },
+        {
+          "id": 2,
+          "title": "Set up GitHub Projects integration",
+          "priority": "high",
+          "status": "in progress",
+          "progress": 40,
+          "estimatedTokens": 3000,
+          "description": "Fetch tasks from GitHub Projects API"
+        },
+        {
+          "id": 3,
+          "title": "Game design documentation",
+          "priority": "critical",
+          "status": "in progress",
+          "progress": 60,
+          "estimatedTokens": 6000,
+          "description": "Full game mechanics, balance, progression systems"
+        },
+        {
+          "id": 4,
+          "title": "Deploy to GitHub Pages",
+          "priority": "medium",
+          "status": "todo",
+          "progress": 0,
+          "estimatedTokens": 2000,
+          "description": "Set up game hosting"
+        }
+      ]
+    },
+    "buster-tools": {
+      "name": "Buster Tools & Systems",
+      "emoji": "🔧",
+      "description": "Internal tools and systems for Buster to operate more effectively",
+      "url": "https://github.com/Dev-Busters/dashboard",
+      "tasks": [
+        {
+          "id": 1,
+          "title": "Build unified command center",
+          "priority": "critical",
+          "status": "in progress",
+          "progress": 80,
+          "estimatedTokens": 4000,
+          "description": "Dashboard for tracking all projects and token usage"
+        },
+        {
+          "id": 2,
+          "title": "Token tracking automation",
+          "priority": "high",
+          "status": "todo",
+          "progress": 0,
+          "estimatedTokens": 3000,
+          "description": "Auto-pull token data from OpenClaw sessions"
+        }
+      ]
+    }
+  },
+  "notes": "Update tracker.json to keep the dashboard current. Each project can have multiple tasks with estimated token costs."
+}
