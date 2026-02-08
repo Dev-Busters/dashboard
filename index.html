@@ -4,7 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buster's Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #a855f7;
+            --accent-pink: #ec4899;
+            --accent-green: #10b981;
+            --accent-yellow: #fbbf24;
+            --accent-red: #ef4444;
+            --accent-orange: #f97316;
+            --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #a855f7 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-warning: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,219 +37,398 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
-            color: #e0e0e0;
-            padding: 16px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .bg-gradient::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+            animation: bgFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-5%, -5%) rotate(5deg); }
         }
 
         .container {
-            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 24px;
         }
 
+        /* Header */
         header {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 32px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #40e0d0;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        h1 {
-            font-size: 2.5em;
-            color: #40e0d0;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            color: #a0a0b0;
-            font-size: 0.95em;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        .logo {
+            display: flex;
+            align-items: center;
             gap: 16px;
-            margin-bottom: 32px;
         }
 
-        .stat-card {
-            background: rgba(64, 224, 208, 0.05);
-            border: 1px solid rgba(64, 224, 208, 0.2);
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.3s ease;
+        .logo-icon {
+            font-size: 2.5em;
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        .stat-card:hover {
-            border-color: rgba(64, 224, 208, 0.5);
-            background: rgba(64, 224, 208, 0.1);
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
-        .stat-label {
-            color: #a0a0b0;
+        .logo h1 {
+            font-size: 1.8em;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-meta {
+            text-align: right;
+        }
+
+        .last-updated {
+            color: var(--text-muted);
             font-size: 0.85em;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .stat-value {
-            font-size: 2em;
-            color: #40e0d0;
-            font-weight: bold;
-        }
-
-        .stat-subtext {
-            color: #707080;
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
             font-size: 0.8em;
+            color: var(--accent-green);
             margin-top: 8px;
         }
 
-        .project-section {
-            margin-bottom: 40px;
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
         }
 
-        .project-title {
-            font-size: 1.8em;
-            color: #40e0d0;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid rgba(64, 224, 208, 0.3);
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
-        .tasks-section {
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
             margin-bottom: 32px;
         }
 
-        .section-title {
-            font-size: 1.3em;
-            color: #e0e0e0;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(64, 224, 208, 0.2);
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
-        .task-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(64, 224, 208, 0.1);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 12px;
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .task-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(64, 224, 208, 0.3);
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .task-header {
+        .stat-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(0, 212, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-icon {
+            font-size: 2em;
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2.2em;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-value.green {
+            background: var(--gradient-success);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .stat-value.yellow {
+            background: var(--gradient-warning);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .stat-subtext {
+            color: var(--text-muted);
+            font-size: 0.85em;
+            margin-top: 8px;
+        }
+
+        /* Budget Section */
+        .budget-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 32px;
+        }
+
+        .budget-header {
             display: flex;
             justify-content: space-between;
-            align-items: start;
-            margin-bottom: 12px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .budget-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
             gap: 12px;
         }
 
-        .task-title {
-            font-weight: 600;
-            font-size: 1.1em;
-            color: #e0e0e0;
-            flex: 1;
-        }
-
-        .priority-badge {
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .priority-critical {
-            background: rgba(255, 71, 87, 0.3);
-            color: #ff4757;
-            border: 1px solid #ff4757;
-        }
-
-        .priority-high {
-            background: rgba(255, 152, 0, 0.3);
-            color: #ff9800;
-            border: 1px solid #ff9800;
-        }
-
-        .priority-medium {
-            background: rgba(76, 175, 80, 0.3);
-            color: #4caf50;
-            border: 1px solid #4caf50;
-        }
-
-        .priority-low {
-            background: rgba(76, 175, 80, 0.2);
-            color: #90c090;
-            border: 1px solid #90c090;
-        }
-
-        .task-meta {
+        .model-tabs {
             display: flex;
-            gap: 16px;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        .model-tab {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
             font-size: 0.9em;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-family: inherit;
         }
 
-        .meta-item {
+        .model-tab:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .model-tab.active {
+            background: var(--gradient-primary);
+            color: var(--bg-primary);
+        }
+
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .budget-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .budget-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .budget-card-label {
+            color: var(--text-muted);
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .budget-card-value {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--accent-cyan);
+        }
+
+        .budget-card-value.warning {
+            color: var(--accent-yellow);
+        }
+
+        .budget-card-value.success {
+            color: var(--accent-green);
+        }
+
+        .budget-progress {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .budget-progress-header {
             display: flex;
-            align-items: center;
-            gap: 6px;
-            color: #a0a0b0;
+            justify-content: space-between;
+            margin-bottom: 12px;
         }
 
-        .meta-label {
-            color: #707080;
+        .budget-progress-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .budget-progress-value {
+            color: var(--accent-cyan);
+            font-weight: 700;
         }
 
         .progress-bar {
-            height: 8px;
-            background: rgba(64, 224, 208, 0.1);
-            border-radius: 4px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
             overflow: hidden;
-            margin-bottom: 8px;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #40e0d0, #00bfff);
-            transition: width 0.3s ease;
+            background: var(--gradient-primary);
+            border-radius: 6px;
+            transition: width 1s ease-out;
         }
 
-        .token-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .progress-fill.warning {
+            background: var(--gradient-warning);
+        }
+
+        .progress-fill.danger {
+            background: var(--gradient-danger);
+        }
+
+        /* Project Section */
+        .project-section {
+            margin-bottom: 40px;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .project-title {
+            font-size: 1.6em;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
             gap: 12px;
-            font-size: 0.9em;
         }
 
-        .token-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px 12px;
+        .project-title-emoji {
+            font-size: 1.2em;
+        }
+
+        .project-progress {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .project-progress-bar {
+            width: 200px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
-            border-left: 2px solid #40e0d0;
+            overflow: hidden;
         }
 
-        .token-label {
-            color: #a0a0b0;
-            font-size: 0.8em;
+        .project-progress-fill {
+            height: 100%;
+            background: var(--gradient-success);
+            border-radius: 4px;
+            transition: width 1s ease-out;
         }
 
-        .token-value {
-            color: #40e0d0;
-            font-weight: 600;
+        .project-progress-text {
+            font-weight: 700;
+            color: var(--accent-green);
         }
 
-        .filter-buttons {
+        /* Task Filters */
+        .task-filters {
             display: flex;
             gap: 8px;
             margin-bottom: 20px;
@@ -233,276 +437,435 @@
 
         .filter-btn {
             padding: 8px 16px;
-            background: rgba(64, 224, 208, 0.1);
-            border: 1px solid rgba(64, 224, 208, 0.3);
-            color: #40e0d0;
-            border-radius: 4px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-family: inherit;
         }
 
         .filter-btn:hover {
-            background: rgba(64, 224, 208, 0.2);
-            border-color: rgba(64, 224, 208, 0.6);
+            background: var(--bg-card-hover);
+            border-color: rgba(0, 212, 255, 0.3);
+            color: var(--text-primary);
         }
 
         .filter-btn.active {
-            background: rgba(64, 224, 208, 0.3);
-            border-color: #40e0d0;
+            background: rgba(0, 212, 255, 0.15);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
         }
 
-        .cost-section {
-            background: rgba(255, 165, 0, 0.08);
-            border: 1px solid rgba(255, 165, 0, 0.3);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 32px;
-        }
-
-        .cost-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .cost-title {
-            font-size: 1.4em;
-            color: #ffb700;
-            font-weight: bold;
-        }
-
-        .model-selector {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .model-btn {
-            padding: 8px 16px;
-            background: rgba(64, 224, 208, 0.1);
-            border: 1px solid rgba(64, 224, 208, 0.3);
-            color: #40e0d0;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .model-btn:hover {
-            background: rgba(64, 224, 208, 0.2);
-            border-color: #40e0d0;
-        }
-
-        .model-btn.active {
-            background: #40e0d0;
-            color: #1e1e2e;
-            border-color: #40e0d0;
-        }
-
-        .cost-grid {
+        /* Task Cards */
+        .task-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .task-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
             gap: 16px;
-            margin-bottom: 20px;
+            align-items: start;
         }
 
-        .cost-card {
+        .task-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(0, 212, 255, 0.2);
+            transform: translateX(4px);
+        }
+
+        .task-card.done {
+            opacity: 0.7;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .task-status-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+
+        .task-status-icon.done {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .task-status-icon.planned {
+            background: rgba(251, 191, 36, 0.15);
+        }
+
+        .task-status-icon.progress {
+            background: rgba(0, 212, 255, 0.15);
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .task-description {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .task-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
             background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 165, 0, 0.2);
             border-radius: 6px;
-            padding: 16px;
+            font-size: 0.8em;
+            color: var(--text-secondary);
         }
 
-        .cost-label {
-            color: #a0a0b0;
-            font-size: 0.85em;
-            margin-bottom: 8px;
+        .task-tag.cost {
+            color: var(--accent-yellow);
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        .task-tag.tokens {
+            color: var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .task-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .priority-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .cost-value {
-            font-size: 1.8em;
-            color: #ffb700;
-            font-weight: bold;
-            margin-bottom: 4px;
+        .priority-critical {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
-        .cost-subtext {
-            color: #707080;
-            font-size: 0.8em;
+        .priority-high {
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--accent-orange);
+            border: 1px solid rgba(249, 115, 22, 0.3);
         }
 
-        .budget-alert {
-            background: rgba(255, 71, 87, 0.15);
-            border: 1px solid rgba(255, 71, 87, 0.5);
-            border-radius: 6px;
-            padding: 12px 16px;
-            color: #ff6b7a;
-            font-size: 0.9em;
-            margin-top: 12px;
-            display: none;
+        .priority-medium {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--accent-yellow);
+            border: 1px solid rgba(251, 191, 36, 0.3);
         }
 
-        .budget-alert.show {
-            display: block;
+        .priority-low {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
-        .session-costs {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            padding: 16px;
-            margin-top: 16px;
+        .task-progress-mini {
+            width: 100px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
         }
 
-        .session-cost-item {
+        .task-progress-mini-fill {
+            height: 100%;
+            background: var(--gradient-success);
+            border-radius: 3px;
+        }
+
+        /* Last Session */
+        .session-summary {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 32px;
+        }
+
+        .session-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 4px;
-            margin-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        .session-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .session-date {
+            color: var(--text-muted);
             font-size: 0.9em;
         }
 
-        .session-cost-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .session-name {
-            color: #e0e0e0;
-            font-weight: 500;
-        }
-
-        .session-cost {
-            color: #ffb700;
-            font-weight: bold;
-        }
-
-        .session-model {
-            color: #707080;
-            font-size: 0.8em;
-        }
-
-        .last-updated {
-            text-align: center;
-            color: #707080;
-            font-size: 0.8em;
-            margin-top: 32px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(64, 224, 208, 0.1);
+        .session-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .task-header {
-                flex-direction: column;
-            }
-
-            .priority-badge {
-                align-self: flex-start;
-            }
-
-            .token-info {
-                grid-template-columns: 1fr;
-            }
+            .session-grid { grid-template-columns: 1fr; }
         }
+
+        .session-list-title {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .session-list {
+            list-style: none;
+        }
+
+        .session-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .session-list li:last-child {
+            border-bottom: none;
+        }
+
+        .session-list .emoji {
+            flex-shrink: 0;
+        }
+
+        /* Notes */
+        .notes-section {
+            background: rgba(168, 85, 247, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .notes-title {
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notes-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 0.85em;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
     </style>
 </head>
 <body>
+    <div class="bg-gradient"></div>
+    
     <div class="container">
-        <header>
-            <h1>🔧 Buster's Command Center</h1>
-            <p class="subtitle">Projects • Tasks • Progress • Token Usage</p>
+        <header class="animate-in">
+            <div class="logo">
+                <span class="logo-icon">🔧</span>
+                <div>
+                    <h1>Buster's Command Center</h1>
+                </div>
+            </div>
+            <div class="header-meta">
+                <div class="last-updated">Last synced: <span id="lastUpdated">Loading...</span></div>
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span>Systems Online</span>
+                </div>
+            </div>
         </header>
 
-        <!-- Cost Tracking Section -->
-        <div class="cost-section">
-            <div class="cost-header">
-                <div class="cost-title">💰 Cost Monitoring</div>
-                <div class="model-selector" id="modelSelector">
-                    <button class="model-btn active" data-model="haiku">⚡ Haiku</button>
-                    <button class="model-btn" data-model="sonnet">⚙️ Sonnet</button>
-                    <button class="model-btn" data-model="opus">🧠 Opus</button>
-                </div>
-            </div>
-
-            <div class="cost-grid">
-                <div class="cost-card">
-                    <div class="cost-label">Current Session Cost</div>
-                    <div class="cost-value" id="currentCost">$0.00</div>
-                    <div class="cost-subtext" id="currentModel">Using Haiku</div>
-                </div>
-                <div class="cost-card">
-                    <div class="cost-label">Estimated Daily Usage</div>
-                    <div class="cost-value" id="dailyUsage">$0.00</div>
-                    <div class="cost-subtext">Run rate projection</div>
-                </div>
-                <div class="cost-card">
-                    <div class="cost-label">Daily Budget</div>
-                    <div class="cost-value" id="dailyBudget">$10.00</div>
-                    <div class="cost-subtext" id="budgetStatus">On track</div>
-                </div>
-                <div class="cost-card">
-                    <div class="cost-label">Total Tokens</div>
-                    <div class="cost-value" id="totalCostTokens">0</div>
-                    <div class="cost-subtext">Input + Output</div>
-                </div>
-            </div>
-
-            <div class="budget-alert" id="budgetAlert">
-                ⚠️ Budget Alert: Current usage rate exceeds daily budget limit!
-            </div>
-
-            <div class="session-costs">
-                <div style="color: #a0a0b0; font-weight: 600; margin-bottom: 12px; font-size: 0.9em;">Session Breakdown</div>
-                <div id="sessionCostsList"></div>
-            </div>
-        </div>
-
-        <div class="stats-grid">
+        <!-- Stats Grid -->
+        <div class="stats-grid animate-in delay-1">
             <div class="stat-card">
+                <div class="stat-icon">📋</div>
                 <div class="stat-label">Total Tasks</div>
                 <div class="stat-value" id="totalTasks">0</div>
-                <div class="stat-subtext"><span id="activeTasks">0</span> active</div>
+                <div class="stat-subtext"><span id="completedCount">0</span> completed</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Token Usage (All Sessions)</div>
-                <div class="stat-value" id="tokenUsage">0</div>
-                <div class="stat-subtext" id="modelDisplay">Haiku model</div>
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Progress</div>
+                <div class="stat-value green" id="overallProgress">0%</div>
+                <div class="stat-subtext">of roadmap complete</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Estimated to Complete</div>
-                <div class="stat-value" id="estimatedTokens">0</div>
-                <div class="stat-subtext">Based on active tasks</div>
+                <div class="stat-icon">💰</div>
+                <div class="stat-label">Budget Spent</div>
+                <div class="stat-value yellow" id="budgetSpent">$0.00</div>
+                <div class="stat-subtext" id="budgetRemaining">$0.00 remaining</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Overall Progress</div>
-                <div class="stat-value" id="overallProgress">0%</div>
-                <div class="stat-subtext"><span id="completedTasks">0</span> / <span id="totalTasksSmall">0</span></div>
+                <div class="stat-icon">🎯</div>
+                <div class="stat-label">Est. to Complete</div>
+                <div class="stat-value" id="estRemaining">$0.00</div>
+                <div class="stat-subtext" id="estTokens">0 tokens</div>
             </div>
         </div>
 
-        <div id="projectsContainer"></div>
+        <!-- Budget Section -->
+        <div class="budget-section animate-in delay-2">
+            <div class="budget-header">
+                <div class="budget-title">
+                    <span>💵</span>
+                    <span>Budget & Cost Tracking</span>
+                </div>
+                <div class="model-tabs">
+                    <button class="model-tab active" data-model="haiku">⚡ Haiku</button>
+                    <button class="model-tab" data-model="sonnet">⚙️ Sonnet</button>
+                    <button class="model-tab" data-model="opus">🧠 Opus</button>
+                </div>
+            </div>
 
-        <div class="last-updated">
-            Last updated: <span id="lastUpdated">Never</span>
-            <br>
-            <small>Data pulled from tracker.json — refresh the page for latest</small>
+            <div class="budget-grid">
+                <div class="budget-card">
+                    <div class="budget-card-label">Total Budget</div>
+                    <div class="budget-card-value success" id="totalBudget">$10.00</div>
+                </div>
+                <div class="budget-card">
+                    <div class="budget-card-label">Spent</div>
+                    <div class="budget-card-value" id="spent">$0.70</div>
+                </div>
+                <div class="budget-card">
+                    <div class="budget-card-label">Remaining</div>
+                    <div class="budget-card-value success" id="remaining">$9.30</div>
+                </div>
+                <div class="budget-card">
+                    <div class="budget-card-label">Est. Total Need</div>
+                    <div class="budget-card-value warning" id="totalNeed">$2.47</div>
+                </div>
+            </div>
+
+            <div class="budget-progress">
+                <div class="budget-progress-header">
+                    <span class="budget-progress-label">Budget Utilization</span>
+                    <span class="budget-progress-value" id="budgetPercent">7%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="budgetProgressFill" style="width: 7%"></div>
+                </div>
+            </div>
         </div>
+
+        <!-- Last Session Summary -->
+        <div class="session-summary animate-in delay-3" id="sessionSummary">
+            <div class="session-header">
+                <div class="session-title">
+                    <span>📅</span>
+                    <span>Last Development Session</span>
+                </div>
+                <div class="session-date" id="sessionDate">Loading...</div>
+            </div>
+            <div class="session-grid">
+                <div>
+                    <div class="session-list-title">✅ Achievements</div>
+                    <ul class="session-list" id="achievementsList"></ul>
+                </div>
+                <div>
+                    <div class="session-list-title">🎯 Next Priorities</div>
+                    <ul class="session-list" id="prioritiesList"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="notes-section animate-in delay-3" id="notesSection">
+            <div class="notes-title">
+                <span>📝</span>
+                <span>Session Notes</span>
+            </div>
+            <div class="notes-content" id="notesContent">Loading...</div>
+        </div>
+
+        <!-- Projects -->
+        <div id="projectsContainer" class="animate-in delay-4"></div>
+
+        <footer>
+            <p>Built by <strong>Buster</strong> 🔧 • Data from <a href="./tracker.json">tracker.json</a></p>
+            <p style="margin-top: 8px;">Refresh page to sync latest data</p>
+        </footer>
     </div>
 
     <script>
@@ -511,180 +874,135 @@
 
         async function loadData() {
             try {
-                const response = await fetch('./tracker.json');
+                const response = await fetch('./tracker.json?' + Date.now());
                 dashboardData = await response.json();
                 renderDashboard(dashboardData);
-                setupModelSelector();
+                setupModelTabs();
             } catch (e) {
                 console.error('Failed to load tracker.json:', e);
-                document.body.innerHTML += '<p style="text-align: center; color: red; margin-top: 40px;">Failed to load dashboard data. Make sure tracker.json exists.</p>';
             }
         }
 
-        function formatCost(tokens, model = 'haiku') {
-            const models = dashboardData?.metadata?.models || {
-                haiku: { inputCost: 0.80, outputCost: 4.00 },
-                sonnet: { inputCost: 3.00, outputCost: 15.00 },
-                opus: { inputCost: 15.00, outputCost: 75.00 }
-            };
-
-            const pricing = models[model];
-            // Assume 40% input, 60% output on average
-            const inputTokens = Math.round(tokens * 0.4);
-            const outputTokens = Math.round(tokens * 0.6);
-
-            const inputCost = (inputTokens / 1_000_000) * pricing.inputCost;
-            const outputCost = (outputTokens / 1_000_000) * pricing.outputCost;
-            return inputCost + outputCost;
-        }
-
-        function setupModelSelector() {
-            const buttons = document.querySelectorAll('.model-btn');
-            buttons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    buttons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentModel = btn.dataset.model;
-                    renderCostSection(dashboardData);
+        function setupModelTabs() {
+            document.querySelectorAll('.model-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentModel = tab.dataset.model;
+                    updateCostDisplay();
                 });
             });
         }
 
-        function renderCostSection(data) {
-            const selectedModelData = data.metadata.models[currentModel];
-            const totalSessions = data.sessions || {};
-            
-            let totalCost = 0;
-            let totalTokens = 0;
-            const sessionsList = [];
+        function formatCost(cost) {
+            return '$' + cost.toFixed(2);
+        }
 
-            // Calculate costs for all sessions
-            Object.entries(totalSessions).forEach(([key, session]) => {
-                const tokens = session.currentTokens || 0;
-                const cost = formatCost(tokens, currentModel);
-                totalCost += cost;
-                totalTokens += tokens;
-                
-                sessionsList.push({
-                    name: session.name,
-                    tokens,
-                    cost,
-                    model: currentModel
-                });
-            });
-
-            // Estimate daily usage (assuming current rate continues)
-            const dailyUsage = totalCost;
-            const dailyBudget = data.costTracking?.dailyBudget || 10.00;
-            const isOverBudget = dailyUsage > dailyBudget;
-
-            // Update cost displays
-            document.getElementById('currentCost').textContent = `$${totalCost.toFixed(4)}`;
-            document.getElementById('currentModel').textContent = `Using ${selectedModelData.displayName}`;
-            document.getElementById('dailyUsage').textContent = `$${dailyUsage.toFixed(4)}`;
-            document.getElementById('dailyBudget').textContent = `$${dailyBudget.toFixed(2)}`;
-            document.getElementById('totalCostTokens').textContent = totalTokens.toLocaleString();
-            document.getElementById('modelDisplay').textContent = `${selectedModelData.displayName} model`;
-            
-            // Budget alert
-            const budgetAlert = document.getElementById('budgetAlert');
-            if (isOverBudget) {
-                budgetAlert.classList.add('show');
-                document.getElementById('budgetStatus').textContent = '⚠️ Over budget!';
-                document.getElementById('budgetStatus').style.color = '#ff6b7a';
-            } else {
-                budgetAlert.classList.remove('show');
-                const percentUsed = Math.round((dailyUsage / dailyBudget) * 100);
-                document.getElementById('budgetStatus').textContent = `${percentUsed}% used`;
-                document.getElementById('budgetStatus').style.color = '#707080';
-            }
-
-            // Render session costs
-            const sessionCostsList = document.getElementById('sessionCostsList');
-            sessionCostsList.innerHTML = sessionsList
-                .filter(s => s.tokens > 0)
-                .map(s => `
-                    <div class="session-cost-item">
-                        <div>
-                            <div class="session-name">${s.name}</div>
-                            <div class="session-model">${s.tokens.toLocaleString()} tokens</div>
-                        </div>
-                        <div class="session-cost">$${s.cost.toFixed(4)}</div>
-                    </div>
-                `)
-                .join('');
-
-            if (sessionsList.filter(s => s.tokens > 0).length === 0) {
-                sessionCostsList.innerHTML = '<div class="session-cost-item"><div class="session-name">No active sessions</div></div>';
-            }
+        function updateCostDisplay() {
+            // Recalculate costs based on selected model
+            if (!dashboardData) return;
+            // For now, just use the stored costs
         }
 
         function renderDashboard(data) {
+            // Calculate totals
             let totalTasks = 0;
-            let activeTasks = 0;
             let completedTasks = 0;
-            let totalTokens = 0;
-            let totalEstimated = 0;
+            let totalSpent = 0;
+            let totalRemaining = 0;
+            let totalTokensRemaining = 0;
 
+            Object.values(data.projects || {}).forEach(project => {
+                if (!project.tasks) return;
+                project.tasks.forEach(task => {
+                    totalTasks++;
+                    if (task.status === 'done') {
+                        completedTasks++;
+                        totalSpent += task.cost || 0;
+                    } else {
+                        totalRemaining += task.cost || 0;
+                        totalTokensRemaining += task.estimatedTokens || 0;
+                    }
+                });
+            });
+
+            const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+            const budgetTotal = data.costTracking?.spent + data.costTracking?.remaining || 10;
+            const budgetSpent = data.costTracking?.spent || totalSpent;
+            const budgetRemaining = data.costTracking?.remaining || (budgetTotal - budgetSpent);
+
+            // Update stats
+            document.getElementById('totalTasks').textContent = totalTasks;
+            document.getElementById('completedCount').textContent = completedTasks;
+            document.getElementById('overallProgress').textContent = progress + '%';
+            document.getElementById('budgetSpent').textContent = formatCost(budgetSpent);
+            document.getElementById('budgetRemaining').textContent = formatCost(budgetRemaining) + ' remaining';
+            document.getElementById('estRemaining').textContent = formatCost(totalRemaining);
+            document.getElementById('estTokens').textContent = totalTokensRemaining.toLocaleString() + ' tokens';
+
+            // Budget section
+            document.getElementById('totalBudget').textContent = formatCost(budgetTotal);
+            document.getElementById('spent').textContent = formatCost(budgetSpent);
+            document.getElementById('remaining').textContent = formatCost(budgetRemaining);
+            document.getElementById('totalNeed').textContent = formatCost(budgetSpent + totalRemaining);
+
+            const budgetPercent = Math.round((budgetSpent / budgetTotal) * 100);
+            document.getElementById('budgetPercent').textContent = budgetPercent + '%';
+            document.getElementById('budgetProgressFill').style.width = budgetPercent + '%';
+
+            // Last session
+            if (data.lastSession) {
+                document.getElementById('sessionDate').textContent = data.lastSession.date + ' • ' + (data.lastSession.duration || '');
+                
+                const achievementsList = document.getElementById('achievementsList');
+                achievementsList.innerHTML = (data.lastSession.achievements || [])
+                    .map(a => `<li><span class="emoji">✓</span> ${a}</li>`)
+                    .join('');
+
+                const prioritiesList = document.getElementById('prioritiesList');
+                prioritiesList.innerHTML = (data.lastSession.nextPriorities || [])
+                    .map(p => `<li><span class="emoji">→</span> ${p}</li>`)
+                    .join('');
+            }
+
+            // Notes
+            if (data.notes) {
+                document.getElementById('notesContent').textContent = data.notes;
+            }
+
+            // Render projects
             const projectsContainer = document.getElementById('projectsContainer');
             projectsContainer.innerHTML = '';
 
-            // Process each project
             Object.entries(data.projects || {}).forEach(([key, project]) => {
                 if (!project.tasks || project.tasks.length === 0) return;
 
-                totalTasks += project.tasks.length;
-                
-                const completed = project.tasks.filter(t => t.status === 'done').length;
-                const active = project.tasks.filter(t => t.status === 'in progress').length;
-                const estimated = project.tasks
-                    .filter(t => t.status !== 'done')
-                    .reduce((sum, t) => sum + (t.estimatedTokens * (100 - (t.progress || 0)) / 100), 0);
-
-                completedTasks += completed;
-                activeTasks += active;
-                totalEstimated += estimated;
+                const projectCompleted = project.tasks.filter(t => t.status === 'done').length;
+                const projectProgress = Math.round((projectCompleted / project.tasks.length) * 100);
 
                 const projectHTML = `
                     <div class="project-section">
-                        <h2 class="project-title">${project.emoji || '📋'} ${project.name}</h2>
-                        
-                        <div class="tasks-section">
-                            <div class="filter-buttons">
-                                <button class="filter-btn active">All (${project.tasks.length})</button>
-                                <button class="filter-btn">${active} In Progress</button>
-                                <button class="filter-btn">${completed} Done</button>
+                        <div class="project-header">
+                            <div class="project-title">
+                                <span class="project-title-emoji">${project.emoji || '📋'}</span>
+                                <span>${project.name}</span>
                             </div>
-                            <div class="task-list">
-                                ${project.tasks.map(task => `
-                                    <div class="task-card">
-                                        <div class="task-header">
-                                            <div class="task-title">${getStatusEmoji(task.status)} ${task.title}</div>
-                                            ${task.priority ? `<div class="priority-badge priority-${task.priority}">${task.priority.toUpperCase()}</div>` : ''}
-                                        </div>
-                                        <div class="task-meta">
-                                            <div class="meta-item"><span class="meta-label">Status:</span> <span>${task.status}</span></div>
-                                            <div class="meta-item"><span class="meta-label">Progress:</span> <span>${task.progress || 0}%</span></div>
-                                        </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: ${task.progress || 0}%"></div>
-                                        </div>
-                                        ${task.description ? `<p style="color: #a0a0b0; font-size: 0.9em; margin-bottom: 12px;">${task.description}</p>` : ''}
-                                        ${task.estimatedTokens ? `
-                                            <div class="token-info">
-                                                <div class="token-item">
-                                                    <div class="token-label">Est. Tokens</div>
-                                                    <div class="token-value">${task.estimatedTokens.toLocaleString()}</div>
-                                                </div>
-                                                <div class="token-item">
-                                                    <div class="token-label">Per % Complete</div>
-                                                    <div class="token-value">${Math.round(task.estimatedTokens / 100).toLocaleString()}</div>
-                                                </div>
-                                            </div>
-                                        ` : ''}
-                                    </div>
-                                `).join('')}
+                            <div class="project-progress">
+                                <div class="project-progress-bar">
+                                    <div class="project-progress-fill" style="width: ${projectProgress}%"></div>
+                                </div>
+                                <span class="project-progress-text">${projectProgress}%</span>
                             </div>
+                        </div>
+
+                        <div class="task-filters">
+                            <button class="filter-btn active" data-filter="all">All (${project.tasks.length})</button>
+                            <button class="filter-btn" data-filter="done">✅ Done (${projectCompleted})</button>
+                            <button class="filter-btn" data-filter="planned">📋 Planned (${project.tasks.length - projectCompleted})</button>
+                        </div>
+
+                        <div class="task-grid">
+                            ${project.tasks.map(task => renderTask(task)).join('')}
                         </div>
                     </div>
                 `;
@@ -692,43 +1010,70 @@
                 projectsContainer.innerHTML += projectHTML;
             });
 
-            // Count tokens across sessions
-            if (data.sessions) {
-                Object.values(data.sessions).forEach(session => {
-                    totalTokens += session.currentTokens || 0;
-                });
-            }
+            // Setup filter buttons
+            document.querySelectorAll('.task-filters').forEach(filterGroup => {
+                const buttons = filterGroup.querySelectorAll('.filter-btn');
+                const taskGrid = filterGroup.nextElementSibling;
+                const taskCards = taskGrid.querySelectorAll('.task-card');
 
-            // Update stats
-            document.getElementById('totalTasks').textContent = totalTasks;
-            document.getElementById('activeTasks').textContent = activeTasks;
-            document.getElementById('completedTasks').textContent = completedTasks;
-            document.getElementById('totalTasksSmall').textContent = totalTasks;
-            document.getElementById('overallProgress').textContent = totalTasks > 0 ? `${Math.round(completedTasks / totalTasks * 100)}%` : '0%';
-            document.getElementById('tokenUsage').textContent = totalTokens.toLocaleString();
-            document.getElementById('estimatedTokens').textContent = Math.round(totalEstimated).toLocaleString();
-            document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString('en-US', {
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        buttons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        
+                        const filter = btn.dataset.filter;
+                        taskCards.forEach(card => {
+                            if (filter === 'all') {
+                                card.style.display = 'grid';
+                            } else if (filter === 'done') {
+                                card.style.display = card.classList.contains('done') ? 'grid' : 'none';
+                            } else if (filter === 'planned') {
+                                card.style.display = !card.classList.contains('done') ? 'grid' : 'none';
+                            }
+                        });
+                    });
+                });
+            });
+
+            // Last updated
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleString('en-US', {
                 month: 'short',
                 day: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
             });
-
-            // Render cost section with current model
-            renderCostSection(data);
         }
 
-        function getStatusEmoji(status) {
-            const emojis = {
-                'todo': '📋',
-                'in progress': '⚙️',
-                'in review': '👀',
-                'done': '✅'
-            };
-            return emojis[status] || '❓';
+        function renderTask(task) {
+            const isDone = task.status === 'done';
+            const statusClass = isDone ? 'done' : (task.status === 'in progress' ? 'progress' : 'planned');
+            const statusIcon = isDone ? '✅' : (task.status === 'in progress' ? '⚙️' : '📋');
+            
+            return `
+                <div class="task-card ${isDone ? 'done' : ''}">
+                    <div class="task-status-icon ${statusClass}">
+                        ${statusIcon}
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-description">${task.description || ''}</div>
+                        <div class="task-meta">
+                            ${task.estimatedTokens ? `<span class="task-tag tokens">🎯 ${task.estimatedTokens.toLocaleString()} tokens</span>` : ''}
+                            ${task.cost ? `<span class="task-tag cost">💰 $${task.cost.toFixed(2)}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="task-right">
+                        ${task.priority ? `<span class="priority-badge priority-${task.priority}">${task.priority}</span>` : ''}
+                        ${!isDone && task.progress !== undefined ? `
+                            <div class="task-progress-mini">
+                                <div class="task-progress-mini-fill" style="width: ${task.progress}%"></div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
         }
 
-        // Load data on page load
         document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
