@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-02-07T21:35:00Z",
+    "lastUpdated": "2026-02-08T03:52:00Z",
     "defaultModel": "haiku",
     "description": "Buster's unified task and token tracking for all projects",
     "models": {
@@ -26,37 +26,28 @@
   },
   "sessions": {
     "main": {
-      "name": "Main Terminal Session",
-      "currentTokens": 45000,
-      "inputTokens": 30000,
-      "outputTokens": 15000,
-      "model": "haiku",
+      "name": "Agent Arena Development Session",
+      "currentTokens": 155000,
+      "inputTokens": 95000,
+      "outputTokens": 60000,
+      "model": "haiku/opus (mixed)",
       "status": "active",
-      "cost": 0.0360,
+      "cost": 0.70,
       "startedAt": "2026-02-07T00:00:00Z"
-    },
-    "discord": {
-      "name": "Discord Bot",
-      "currentTokens": 0,
-      "inputTokens": 0,
-      "outputTokens": 0,
-      "model": "haiku",
-      "status": "active",
-      "cost": 0.0,
-      "note": "Reset and switched to Haiku from Opus",
-      "startedAt": "2026-02-07T12:00:00Z"
     }
   },
   "costTracking": {
     "dailyBudget": 10.00,
-    "projectedDailyUsage": 0.0360,
+    "projectedDailyUsage": 0.70,
+    "spent": 0.70,
+    "remaining": 9.30,
     "budgetAlertThreshold": 10.00,
     "history": [
       {
-        "date": "2026-02-07",
-        "totalCost": 0.0360,
-        "totalTokens": 45000,
-        "actionCount": 15,
+        "date": "2026-02-08",
+        "totalCost": 0.70,
+        "totalTokens": 155000,
+        "actionCount": 45,
         "sessions": ["main"]
       }
     ]
@@ -67,61 +58,141 @@
       "emoji": "🎮",
       "description": "Free-to-play MMORPG for AI agents - battles, leveling, leaderboards, cosmetics",
       "url": "https://github.com/Dev-Busters/agent-arena",
-      "monetization": "Cosmetic shop (TBD), no pay-to-win",
+      "liveUrl": "https://agent-arena.vercel.app",
+      "monetization": "Cosmetic shop (designed), no pay-to-win",
+      "phase": "MVP (Local Testing)",
+      "progress": 31,
+      "overview": {
+        "completed": 4,
+        "planned": 8,
+        "estimatedTokensRemaining": 66000,
+        "estimatedCostRemaining": 1.77
+      },
       "tasks": [
         {
           "id": 1,
-          "title": "Backend Game Engine",
+          "title": "Core Game Loop",
           "priority": "critical",
           "status": "done",
           "progress": 100,
-          "estimatedTokens": 20000,
-          "description": "Express + Socket.io + battle system + matchmaking + leaderboard"
+          "spentTokens": 15000,
+          "estimatedTokens": 15000,
+          "cost": 0.25,
+          "description": "User auth, agent creation, class selection, dashboard UI"
         },
         {
           "id": 2,
-          "title": "Frontend (Next.js + Three.js)",
+          "title": "PVP Battle System",
           "priority": "critical",
-          "status": "in progress",
-          "progress": 85,
-          "estimatedTokens": 15000,
-          "description": "Web client with 3D agent visualization, battle UI, queue"
+          "status": "done",
+          "progress": 100,
+          "spentTokens": 12000,
+          "estimatedTokens": 12000,
+          "cost": 0.20,
+          "description": "Socket.io battles, turn-based combat, damage calculations, accuracy checks"
         },
         {
           "id": 3,
-          "title": "Database Setup & Deployment",
+          "title": "Premium UI/UX",
           "priority": "high",
-          "status": "in progress",
-          "progress": 30,
-          "estimatedTokens": 3000,
-          "description": "Connect Supabase, run migrations, seed initial data"
+          "status": "done",
+          "progress": 100,
+          "spentTokens": 10000,
+          "estimatedTokens": 10000,
+          "cost": 0.17,
+          "description": "Landing page, polished auth flows, animated dashboard, battle UI"
         },
         {
           "id": 4,
-          "title": "Testing & Balance",
+          "title": "OAuth Integration",
           "priority": "high",
-          "status": "todo",
-          "progress": 20,
+          "status": "done",
+          "progress": 100,
+          "spentTokens": 5000,
           "estimatedTokens": 5000,
-          "description": "Battle simulations, exploit testing, class balance"
+          "cost": 0.08,
+          "description": "Google & Discord login, automatic account linking, email auth fallback"
         },
         {
           "id": 5,
-          "title": "Deploy Backend",
-          "priority": "high",
-          "status": "todo",
-          "progress": 0,
-          "estimatedTokens": 2000,
-          "description": "Railway/Render + domain + monitoring + CI/CD"
+          "title": "Database & Infrastructure",
+          "priority": "critical",
+          "status": "done",
+          "progress": 100,
+          "spentTokens": 8000,
+          "estimatedTokens": 8000,
+          "cost": 0.13,
+          "description": "Supabase PostgreSQL, schema migrations, user/agent/battle tables"
         },
         {
           "id": 6,
-          "title": "Launch MVP",
+          "title": "PVE Dungeon System",
           "priority": "critical",
-          "status": "todo",
+          "status": "planned",
           "progress": 0,
-          "estimatedTokens": 1000,
-          "description": "Public release, player onboarding, community setup"
+          "estimatedTokens": 18000,
+          "cost": 0.30,
+          "description": "Dungeons, enemy AI, difficulty scaling, encounter design, rewards"
+        },
+        {
+          "id": 7,
+          "title": "Loot & Progression",
+          "priority": "critical",
+          "status": "planned",
+          "progress": 0,
+          "estimatedTokens": 12000,
+          "cost": 0.20,
+          "description": "Item drops, rarity system, progression curves, XP tuning, economy"
+        },
+        {
+          "id": 8,
+          "title": "Crafting System",
+          "priority": "high",
+          "status": "planned",
+          "progress": 0,
+          "estimatedTokens": 10000,
+          "cost": 0.17,
+          "description": "Recipes, materials, gear crafting, resource management, trading"
+        },
+        {
+          "id": 9,
+          "title": "Cosmetics Shop",
+          "priority": "high",
+          "status": "planned",
+          "progress": 0,
+          "estimatedTokens": 8000,
+          "cost": 0.13,
+          "description": "Skins, emotes, cosmetic gear, pricing tiers, monetization design"
+        },
+        {
+          "id": 10,
+          "title": "Game Balance & Economy",
+          "priority": "critical",
+          "status": "planned",
+          "progress": 0,
+          "estimatedTokens": 25000,
+          "cost": 0.42,
+          "description": "Simulate 100+ battles, tune damage/XP/loot droprates, balance classes (Opus task)"
+        },
+        {
+          "id": 11,
+          "title": "Leaderboard Refinement",
+          "priority": "medium",
+          "status": "planned",
+          "progress": 0,
+          "estimatedTokens": 8000,
+          "cost": 0.13,
+          "description": "Seasonal rankings, ELO system, rewards, rating decay, player profiles"
+        },
+        {
+          "id": 12,
+          "title": "Deploy to Production",
+          "priority": "high",
+          "status": "planned",
+          "progress": 0,
+          "estimatedTokens": 10000,
+          "cost": 0.17,
+          "description": "Railway backend, Vercel frontend, domain setup, monitoring, CI/CD"
         }
       ]
     },
@@ -153,7 +224,7 @@
           "id": 3,
           "title": "Token tracking automation",
           "priority": "medium",
-          "status": "todo",
+          "status": "planned",
           "progress": 0,
           "estimatedTokens": 2000,
           "description": "Auto-pull token data from OpenClaw sessions"
@@ -161,5 +232,24 @@
       ]
     }
   },
-  "notes": "Phase 1 complete. Moving to Phase 2: Frontend development. Keep monetization simple—cosmetics shop, no battle pass, no ads, no pay-to-win."
+  "notes": "MVP Phase complete! Core game loop, auth, battles, and UI all working locally with Supabase. 31% of full roadmap done. Next: PVE content (Haiku), then game balance tuning (Opus). Budget on track: $0.70/$10 spent.",
+  "lastSession": {
+    "date": "2026-02-08",
+    "duration": "3.5 hours",
+    "achievements": [
+      "Built & polished premium UI (landing, auth, dashboard)",
+      "Integrated Google OAuth",
+      "Connected Supabase PostgreSQL",
+      "Implemented battle action handler (attack/defend/ability)",
+      "Created PVE, Crafting, Cosmetics shop roadmap",
+      "Setup development test harness"
+    ],
+    "nextPriorities": [
+      "Deploy backend to Railway",
+      "Test full game loop on production",
+      "Design PVE dungeons & enemies",
+      "Implement crafting system",
+      "Balance game economy with Opus"
+    ]
+  }
 }
