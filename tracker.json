@@ -1,23 +1,65 @@
 {
   "metadata": {
-    "lastUpdated": "2026-02-06T18:40:00Z",
+    "lastUpdated": "2026-02-07T21:35:00Z",
     "defaultModel": "haiku",
-    "description": "Buster's unified task and token tracking for all projects"
+    "description": "Buster's unified task and token tracking for all projects",
+    "models": {
+      "haiku": {
+        "inputCost": 0.80,
+        "outputCost": 4.00,
+        "displayName": "Claude Haiku",
+        "tier": "Fast & Cheap"
+      },
+      "sonnet": {
+        "inputCost": 3.00,
+        "outputCost": 15.00,
+        "displayName": "Claude Sonnet",
+        "tier": "Balanced"
+      },
+      "opus": {
+        "inputCost": 15.00,
+        "outputCost": 75.00,
+        "displayName": "Claude Opus",
+        "tier": "Most Capable"
+      }
+    }
   },
   "sessions": {
     "main": {
       "name": "Main Terminal Session",
       "currentTokens": 45000,
+      "inputTokens": 30000,
+      "outputTokens": 15000,
       "model": "haiku",
-      "status": "active"
+      "status": "active",
+      "cost": 0.0360,
+      "startedAt": "2026-02-07T00:00:00Z"
     },
     "discord": {
       "name": "Discord Bot",
       "currentTokens": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
       "model": "haiku",
       "status": "active",
-      "note": "Reset and switched to Haiku from Opus"
+      "cost": 0.0,
+      "note": "Reset and switched to Haiku from Opus",
+      "startedAt": "2026-02-07T12:00:00Z"
     }
+  },
+  "costTracking": {
+    "dailyBudget": 10.00,
+    "projectedDailyUsage": 0.0360,
+    "budgetAlertThreshold": 10.00,
+    "history": [
+      {
+        "date": "2026-02-07",
+        "totalCost": 0.0360,
+        "totalTokens": 45000,
+        "actionCount": 15,
+        "sessions": ["main"]
+      }
+    ]
   },
   "projects": {
     "agent-arena": {

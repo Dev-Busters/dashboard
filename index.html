@@ -252,6 +252,144 @@
             border-color: #40e0d0;
         }
 
+        .cost-section {
+            background: rgba(255, 165, 0, 0.08);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+
+        .cost-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cost-title {
+            font-size: 1.4em;
+            color: #ffb700;
+            font-weight: bold;
+        }
+
+        .model-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .model-btn {
+            padding: 8px 16px;
+            background: rgba(64, 224, 208, 0.1);
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            color: #40e0d0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .model-btn:hover {
+            background: rgba(64, 224, 208, 0.2);
+            border-color: #40e0d0;
+        }
+
+        .model-btn.active {
+            background: #40e0d0;
+            color: #1e1e2e;
+            border-color: #40e0d0;
+        }
+
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .cost-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 165, 0, 0.2);
+            border-radius: 6px;
+            padding: 16px;
+        }
+
+        .cost-label {
+            color: #a0a0b0;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cost-value {
+            font-size: 1.8em;
+            color: #ffb700;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .cost-subtext {
+            color: #707080;
+            font-size: 0.8em;
+        }
+
+        .budget-alert {
+            background: rgba(255, 71, 87, 0.15);
+            border: 1px solid rgba(255, 71, 87, 0.5);
+            border-radius: 6px;
+            padding: 12px 16px;
+            color: #ff6b7a;
+            font-size: 0.9em;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .budget-alert.show {
+            display: block;
+        }
+
+        .session-costs {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .session-cost-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .session-cost-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .session-name {
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .session-cost {
+            color: #ffb700;
+            font-weight: bold;
+        }
+
+        .session-model {
+            color: #707080;
+            font-size: 0.8em;
+        }
+
         .last-updated {
             text-align: center;
             color: #707080;
@@ -291,6 +429,50 @@
             <p class="subtitle">Projects • Tasks • Progress • Token Usage</p>
         </header>
 
+        <!-- Cost Tracking Section -->
+        <div class="cost-section">
+            <div class="cost-header">
+                <div class="cost-title">💰 Cost Monitoring</div>
+                <div class="model-selector" id="modelSelector">
+                    <button class="model-btn active" data-model="haiku">⚡ Haiku</button>
+                    <button class="model-btn" data-model="sonnet">⚙️ Sonnet</button>
+                    <button class="model-btn" data-model="opus">🧠 Opus</button>
+                </div>
+            </div>
+
+            <div class="cost-grid">
+                <div class="cost-card">
+                    <div class="cost-label">Current Session Cost</div>
+                    <div class="cost-value" id="currentCost">$0.00</div>
+                    <div class="cost-subtext" id="currentModel">Using Haiku</div>
+                </div>
+                <div class="cost-card">
+                    <div class="cost-label">Estimated Daily Usage</div>
+                    <div class="cost-value" id="dailyUsage">$0.00</div>
+                    <div class="cost-subtext">Run rate projection</div>
+                </div>
+                <div class="cost-card">
+                    <div class="cost-label">Daily Budget</div>
+                    <div class="cost-value" id="dailyBudget">$10.00</div>
+                    <div class="cost-subtext" id="budgetStatus">On track</div>
+                </div>
+                <div class="cost-card">
+                    <div class="cost-label">Total Tokens</div>
+                    <div class="cost-value" id="totalCostTokens">0</div>
+                    <div class="cost-subtext">Input + Output</div>
+                </div>
+            </div>
+
+            <div class="budget-alert" id="budgetAlert">
+                ⚠️ Budget Alert: Current usage rate exceeds daily budget limit!
+            </div>
+
+            <div class="session-costs">
+                <div style="color: #a0a0b0; font-weight: 600; margin-bottom: 12px; font-size: 0.9em;">Session Breakdown</div>
+                <div id="sessionCostsList"></div>
+            </div>
+        </div>
+
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Total Tasks</div>
@@ -300,7 +482,7 @@
             <div class="stat-card">
                 <div class="stat-label">Token Usage (All Sessions)</div>
                 <div class="stat-value" id="tokenUsage">0</div>
-                <div class="stat-subtext">Haiku model</div>
+                <div class="stat-subtext" id="modelDisplay">Haiku model</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Estimated to Complete</div>
@@ -324,14 +506,116 @@
     </div>
 
     <script>
+        let currentModel = 'haiku';
+        let dashboardData = null;
+
         async function loadData() {
             try {
                 const response = await fetch('./tracker.json');
-                const data = await response.json();
-                renderDashboard(data);
+                dashboardData = await response.json();
+                renderDashboard(dashboardData);
+                setupModelSelector();
             } catch (e) {
                 console.error('Failed to load tracker.json:', e);
                 document.body.innerHTML += '<p style="text-align: center; color: red; margin-top: 40px;">Failed to load dashboard data. Make sure tracker.json exists.</p>';
+            }
+        }
+
+        function formatCost(tokens, model = 'haiku') {
+            const models = dashboardData?.metadata?.models || {
+                haiku: { inputCost: 0.80, outputCost: 4.00 },
+                sonnet: { inputCost: 3.00, outputCost: 15.00 },
+                opus: { inputCost: 15.00, outputCost: 75.00 }
+            };
+
+            const pricing = models[model];
+            // Assume 40% input, 60% output on average
+            const inputTokens = Math.round(tokens * 0.4);
+            const outputTokens = Math.round(tokens * 0.6);
+
+            const inputCost = (inputTokens / 1_000_000) * pricing.inputCost;
+            const outputCost = (outputTokens / 1_000_000) * pricing.outputCost;
+            return inputCost + outputCost;
+        }
+
+        function setupModelSelector() {
+            const buttons = document.querySelectorAll('.model-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentModel = btn.dataset.model;
+                    renderCostSection(dashboardData);
+                });
+            });
+        }
+
+        function renderCostSection(data) {
+            const selectedModelData = data.metadata.models[currentModel];
+            const totalSessions = data.sessions || {};
+            
+            let totalCost = 0;
+            let totalTokens = 0;
+            const sessionsList = [];
+
+            // Calculate costs for all sessions
+            Object.entries(totalSessions).forEach(([key, session]) => {
+                const tokens = session.currentTokens || 0;
+                const cost = formatCost(tokens, currentModel);
+                totalCost += cost;
+                totalTokens += tokens;
+                
+                sessionsList.push({
+                    name: session.name,
+                    tokens,
+                    cost,
+                    model: currentModel
+                });
+            });
+
+            // Estimate daily usage (assuming current rate continues)
+            const dailyUsage = totalCost;
+            const dailyBudget = data.costTracking?.dailyBudget || 10.00;
+            const isOverBudget = dailyUsage > dailyBudget;
+
+            // Update cost displays
+            document.getElementById('currentCost').textContent = `$${totalCost.toFixed(4)}`;
+            document.getElementById('currentModel').textContent = `Using ${selectedModelData.displayName}`;
+            document.getElementById('dailyUsage').textContent = `$${dailyUsage.toFixed(4)}`;
+            document.getElementById('dailyBudget').textContent = `$${dailyBudget.toFixed(2)}`;
+            document.getElementById('totalCostTokens').textContent = totalTokens.toLocaleString();
+            document.getElementById('modelDisplay').textContent = `${selectedModelData.displayName} model`;
+            
+            // Budget alert
+            const budgetAlert = document.getElementById('budgetAlert');
+            if (isOverBudget) {
+                budgetAlert.classList.add('show');
+                document.getElementById('budgetStatus').textContent = '⚠️ Over budget!';
+                document.getElementById('budgetStatus').style.color = '#ff6b7a';
+            } else {
+                budgetAlert.classList.remove('show');
+                const percentUsed = Math.round((dailyUsage / dailyBudget) * 100);
+                document.getElementById('budgetStatus').textContent = `${percentUsed}% used`;
+                document.getElementById('budgetStatus').style.color = '#707080';
+            }
+
+            // Render session costs
+            const sessionCostsList = document.getElementById('sessionCostsList');
+            sessionCostsList.innerHTML = sessionsList
+                .filter(s => s.tokens > 0)
+                .map(s => `
+                    <div class="session-cost-item">
+                        <div>
+                            <div class="session-name">${s.name}</div>
+                            <div class="session-model">${s.tokens.toLocaleString()} tokens</div>
+                        </div>
+                        <div class="session-cost">$${s.cost.toFixed(4)}</div>
+                    </div>
+                `)
+                .join('');
+
+            if (sessionsList.filter(s => s.tokens > 0).length === 0) {
+                sessionCostsList.innerHTML = '<div class="session-cost-item"><div class="session-name">No active sessions</div></div>';
             }
         }
 
@@ -429,6 +713,9 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
+
+            // Render cost section with current model
+            renderCostSection(data);
         }
 
         function getStatusEmoji(status) {
