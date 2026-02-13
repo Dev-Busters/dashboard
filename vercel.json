@@ -1,16 +1,8 @@
 {
-  "projectId": "",
-  "orgId": "",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "framework": "vite",
-  "env": [
-    {
-      "key": "VITE_API_URL",
-      "value": "https://backend-production-6816.up.railway.app"
-    }
-  ],
   "routes": [
     {
       "src": "/assets/(.*)",
