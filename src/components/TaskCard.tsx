@@ -74,10 +74,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       )}
 
       {/* Tags */}
-      {task.tags.length > 0 && (
+      {task.tags && task.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 mb-3">
-          {task.tags.map(tag => (
-            <span key={tag} className="inline-block px-2 py-0.5 bg-slate-600/50 text-slate-300 text-xs rounded">
+          {task.tags.map((tag, idx) => (
+            <span key={`${task.id}-tag-${idx}`} className="inline-block px-2 py-0.5 bg-slate-600/50 text-slate-300 text-xs rounded">
               {tag}
             </span>
           ))}

@@ -34,9 +34,19 @@ export const useDashboard = () => {
           setDashboard(transformed);
         } catch (fetchErr) {
           console.warn('tracker.json not found, using empty state:', fetchErr);
-          // Create default empty state
+          // Create default empty state with sample project
           const defaultDashboard: Dashboard = {
-            projects: {},
+            projects: {
+              'sample-project': {
+                id: 'sample-project',
+                name: 'Sample Project',
+                emoji: '🎯',
+                description: 'Welcome to your command center! Start by adding tasks to track your work.',
+                phase: 'Getting Started',
+                color: 'bg-blue-600',
+                tasks: [],
+              },
+            },
             costTracking: { totalBudget: 100, spent: 0, remaining: 100 },
             lastUpdated: new Date().toISOString(),
           };
