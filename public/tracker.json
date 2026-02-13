@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "lastUpdated": "2026-02-08T03:59:00Z",
+    "description": "Buster's unified task and token tracking for all projects",
+    "models": {
+      "haiku": { "inputCost": 0.80, "outputCost": 4.00, "displayName": "Claude Haiku", "multiplier": 1 },
+      "sonnet": { "inputCost": 3.00, "outputCost": 15.00, "displayName": "Claude Sonnet", "multiplier": 3.75 },
+      "opus": { "inputCost": 15.00, "outputCost": 75.00, "displayName": "Claude Opus", "multiplier": 18.75 }
+    }
+  },
+  "costTracking": {
+    "totalBudget": 17.85,
+    "spent": 0.70,
+    "remaining": 17.15
+  },
+  "projects": {
+    "agent-arena": {
+      "name": "Agent Arena",
+      "emoji": "🎮",
+      "description": "Free-to-play MMORPG for AI agents",
+      "phase": "MVP Testing",
+      "tasks": [
+        { "id": 1, "title": "Core Game Loop", "status": "done", "priority": "critical", "estimatedTokens": 15000, "cost": 0.25, "description": "User auth, agent creation, class selection, dashboard UI" },
+        { "id": 2, "title": "PVP Battle System", "status": "done", "priority": "critical", "estimatedTokens": 12000, "cost": 0.20, "description": "Socket.io battles, turn-based combat, damage calculations" },
+        { "id": 3, "title": "Premium UI/UX", "status": "done", "priority": "high", "estimatedTokens": 10000, "cost": 0.17, "description": "Landing page, polished auth, animated dashboard" },
+        { "id": 4, "title": "OAuth Integration", "status": "done", "priority": "high", "estimatedTokens": 5000, "cost": 0.08, "description": "Google & Discord login, account linking" },
+        { "id": 5, "title": "Database Setup", "status": "done", "priority": "critical", "estimatedTokens": 8000, "cost": 0.13, "description": "Supabase PostgreSQL, migrations, user/agent tables" },
+        { "id": 6, "title": "PVE Dungeon System", "status": "planned", "priority": "critical", "estimatedTokens": 18000, "cost": 0.30, "description": "Dungeons, enemy AI, encounters, rewards" },
+        { "id": 7, "title": "Loot & Progression", "status": "planned", "priority": "critical", "estimatedTokens": 12000, "cost": 0.20, "description": "Item drops, rarity, XP curves, economy" },
+        { "id": 8, "title": "Crafting System", "status": "planned", "priority": "high", "estimatedTokens": 10000, "cost": 0.17, "description": "Recipes, materials, gear crafting" },
+        { "id": 9, "title": "Cosmetics Shop", "status": "planned", "priority": "high", "estimatedTokens": 8000, "cost": 0.13, "description": "Skins, emotes, monetization" },
+        { "id": 10, "title": "Game Balance", "status": "planned", "priority": "critical", "estimatedTokens": 25000, "cost": 0.42, "description": "Simulate battles, tune damage/XP/loot (Opus)" },
+        { "id": 11, "title": "Leaderboard Refinement", "status": "planned", "priority": "medium", "estimatedTokens": 8000, "cost": 0.13, "description": "Seasons, ELO, rewards" },
+        { "id": 12, "title": "Production Deploy", "status": "planned", "priority": "high", "estimatedTokens": 10000, "cost": 0.17, "description": "Railway + Vercel + domain" }
+      ]
+    }
+  },
+  "lastSession": {
+    "date": "2026-02-08",
+    "duration": "4 hours",
+    "achievements": [
+      "Built premium UI (landing, auth, dashboard)",
+      "Google OAuth working",
+      "Supabase PostgreSQL connected",
+      "Battle system implemented",
+      "Redesigned command center dashboard"
+    ],
+    "nextPriorities": [
+      "Deploy backend to Railway",
+      "Design PVE dungeons",
+      "Implement crafting system",
+      "Balance game economy"
+    ]
+  },
+  "notes": "MVP complete! 5/12 tasks done (42%). Budget healthy: $17.85 available, ~$1.77 estimated remaining. Next: PVE content with Haiku."
+}

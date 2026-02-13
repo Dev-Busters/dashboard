@@ -10,34 +10,47 @@ export const useDashboard = () => {
 
   // Load from localStorage on mount
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        setDashboard(parsed);
-      } else {
+    const loadDashboard = async () => {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setDashboard(parsed);
+          setLoading(false);
+          return;
+        }
+        
         // Load from tracker.json if available
-        fetch('/tracker.json')
-          .then(res => res.json())
-          .then(data => {
-            const transformed: Dashboard = {
-              projects: data.projects || {},
-              costTracking: data.costTracking || { totalBudget: 0, spent: 0, remaining: 0 },
-              lastUpdated: new Date().toISOString(),
-            };
-            setDashboard(transformed);
-          })
-          .catch(err => {
-            console.error('Failed to load tracker.json:', err);
-            setError('Failed to load dashboard data');
-          });
+        try {
+          const response = await fetch('/tracker.json');
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          
+          const data = await response.json();
+          const transformed: Dashboard = {
+            projects: data.projects || {},
+            costTracking: data.costTracking || { totalBudget: 0, spent: 0, remaining: 0 },
+            lastUpdated: data.lastUpdated || new Date().toISOString(),
+          };
+          setDashboard(transformed);
+        } catch (fetchErr) {
+          console.warn('tracker.json not found, using empty state:', fetchErr);
+          // Create default empty state
+          const defaultDashboard: Dashboard = {
+            projects: {},
+            costTracking: { totalBudget: 100, spent: 0, remaining: 100 },
+            lastUpdated: new Date().toISOString(),
+          };
+          setDashboard(defaultDashboard);
+        }
+      } catch (err) {
+        console.error('Failed to load dashboard:', err);
+        setError('Failed to load dashboard data');
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error('Failed to parse stored dashboard:', err);
-      setError('Failed to parse dashboard data');
-    } finally {
-      setLoading(false);
-    }
+    };
+    
+    loadDashboard();
   }, []);
 
   // Save to localStorage whenever dashboard changes
