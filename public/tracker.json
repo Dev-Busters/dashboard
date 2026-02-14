@@ -1,12 +1,7 @@
 {
   "metadata": {
-    "lastUpdated": "2026-02-08T03:59:00Z",
-    "description": "Buster's unified task and token tracking for all projects",
-    "models": {
-      "haiku": { "inputCost": 0.80, "outputCost": 4.00, "displayName": "Claude Haiku", "multiplier": 1 },
-      "sonnet": { "inputCost": 3.00, "outputCost": 15.00, "displayName": "Claude Sonnet", "multiplier": 3.75 },
-      "opus": { "inputCost": 15.00, "outputCost": 75.00, "displayName": "Claude Opus", "multiplier": 18.75 }
-    }
+    "lastUpdated": "2026-02-13T20:58:00Z",
+    "description": "Agent Arena 3D Roguelike Transformation - 41 Tasks across 7 Phases"
   },
   "costTracking": {
     "totalBudget": 17.85,
@@ -17,40 +12,438 @@
     "agent-arena": {
       "name": "Agent Arena",
       "emoji": "🎮",
-      "description": "Free-to-play MMORPG for AI agents",
-      "phase": "MVP Testing",
+      "description": "High-fidelity 3D Roguelike with deep loot, progression, and real-time combat (Hades-inspired)",
+      "phase": "3D Roguelike Transformation",
+      "color": "bg-blue-600",
       "tasks": [
-        { "id": 1, "title": "Core Game Loop", "status": "done", "priority": "critical", "estimatedTokens": 15000, "cost": 0.25, "description": "User auth, agent creation, class selection, dashboard UI" },
-        { "id": 2, "title": "PVP Battle System", "status": "done", "priority": "critical", "estimatedTokens": 12000, "cost": 0.20, "description": "Socket.io battles, turn-based combat, damage calculations" },
-        { "id": 3, "title": "Premium UI/UX", "status": "done", "priority": "high", "estimatedTokens": 10000, "cost": 0.17, "description": "Landing page, polished auth, animated dashboard" },
-        { "id": 4, "title": "OAuth Integration", "status": "done", "priority": "high", "estimatedTokens": 5000, "cost": 0.08, "description": "Google & Discord login, account linking" },
-        { "id": 5, "title": "Database Setup", "status": "done", "priority": "critical", "estimatedTokens": 8000, "cost": 0.13, "description": "Supabase PostgreSQL, migrations, user/agent tables" },
-        { "id": 6, "title": "PVE Dungeon System", "status": "planned", "priority": "critical", "estimatedTokens": 18000, "cost": 0.30, "description": "Dungeons, enemy AI, encounters, rewards" },
-        { "id": 7, "title": "Loot & Progression", "status": "planned", "priority": "critical", "estimatedTokens": 12000, "cost": 0.20, "description": "Item drops, rarity, XP curves, economy" },
-        { "id": 8, "title": "Crafting System", "status": "planned", "priority": "high", "estimatedTokens": 10000, "cost": 0.17, "description": "Recipes, materials, gear crafting" },
-        { "id": 9, "title": "Cosmetics Shop", "status": "planned", "priority": "high", "estimatedTokens": 8000, "cost": 0.13, "description": "Skins, emotes, monetization" },
-        { "id": 10, "title": "Game Balance", "status": "planned", "priority": "critical", "estimatedTokens": 25000, "cost": 0.42, "description": "Simulate battles, tune damage/XP/loot (Opus)" },
-        { "id": 11, "title": "Leaderboard Refinement", "status": "planned", "priority": "medium", "estimatedTokens": 8000, "cost": 0.13, "description": "Seasons, ELO, rewards" },
-        { "id": 12, "title": "Production Deploy", "status": "planned", "priority": "high", "estimatedTokens": 10000, "cost": 0.17, "description": "Railway + Vercel + domain" }
+        {
+          "id": 1,
+          "title": "Zustand Store Architecture",
+          "description": "Create main game state store (Zustand) with agent, dungeon, inventory states. Real-time sync with backend.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 8000,
+          "cost": 0.20,
+          "tags": ["state-management", "phase-1", "core"]
+        },
+        {
+          "id": 2,
+          "title": "Socket.io Real-time Sync",
+          "description": "Refactor backend for optimized event emission. Server snapshots, client interpolation, conflict resolution.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 6000,
+          "cost": 0.15,
+          "tags": ["networking", "phase-1", "core"]
+        },
+        {
+          "id": 3,
+          "title": "Player Input Handler",
+          "description": "Keyboard (WASD), mouse targeting, ability keybinding, input buffering for fast actions.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 4000,
+          "cost": 0.10,
+          "tags": ["input", "phase-1"]
+        },
+        {
+          "id": 4,
+          "title": "Network Optimization",
+          "description": "State delta compression, event batching, client prediction, latency compensation.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 5000,
+          "cost": 0.12,
+          "tags": ["networking", "phase-1", "optimization"]
+        },
+        {
+          "id": 5,
+          "title": "Three.js Scene Setup",
+          "description": "Initialize WebGL renderer, camera/lighting, orthographic isometric view, viewport scaling.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 4000,
+          "cost": 0.10,
+          "tags": ["3d-rendering", "phase-2", "core"]
+        },
+        {
+          "id": 6,
+          "title": "Dungeon Environment Generation",
+          "description": "Procedurally generated room geometry, tile-based layout in 3D, dynamic lighting, fog of war.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 8000,
+          "cost": 0.20,
+          "tags": ["3d-rendering", "phase-2", "procedural"]
+        },
+        {
+          "id": 7,
+          "title": "Character Models & Animation",
+          "description": "Player agent 3D model, enemy models, walk/attack/death animations, particle effects.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 10000,
+          "cost": 0.25,
+          "tags": ["3d-rendering", "phase-2", "assets"]
+        },
+        {
+          "id": 8,
+          "title": "Advanced Shaders & Materials",
+          "description": "Custom shaders for rarity glow, normal mapping, PBR materials, status effect visualization.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 7000,
+          "cost": 0.18,
+          "tags": ["3d-rendering", "phase-2", "shaders"]
+        },
+        {
+          "id": 9,
+          "title": "Post-Processing & Effects",
+          "description": "Bloom, depth of field, motion blur, film grain, chromatic aberration for hit feedback.",
+          "status": "planned",
+          "priority": "medium",
+          "estimatedTokens": 6000,
+          "cost": 0.15,
+          "tags": ["3d-rendering", "phase-2", "visual-effects"]
+        },
+        {
+          "id": 10,
+          "title": "Lighting System",
+          "description": "Dynamic lighting, shadow casting, light attenuation, baked lightmaps, room-specific colors.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 5000,
+          "cost": 0.12,
+          "tags": ["3d-rendering", "phase-2"]
+        },
+        {
+          "id": 11,
+          "title": "Camera & View System",
+          "description": "Smooth camera following, zoom controls, orthographic isometric view, camera shake, mini-map.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 4000,
+          "cost": 0.10,
+          "tags": ["3d-rendering", "phase-2", "camera"]
+        },
+        {
+          "id": 12,
+          "title": "Loot Archetype System",
+          "description": "Base item archetypes (swords, armor, rings), type classification, stat templates, base ranges.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 5000,
+          "cost": 0.12,
+          "tags": ["loot", "phase-3", "core"]
+        },
+        {
+          "id": 13,
+          "title": "Rarity & Tiering System",
+          "description": "8+ rarity tiers (Common→Mythic), stat rolls per rarity, affix pools, color coding, loot tables.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 6000,
+          "cost": 0.15,
+          "tags": ["loot", "phase-3", "core"]
+        },
+        {
+          "id": 14,
+          "title": "Procedural Affix Generation",
+          "description": "30+ prefixes, 40+ suffixes, affix interaction rules, weighted selection by rarity, value scaling.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 7000,
+          "cost": 0.18,
+          "tags": ["loot", "phase-3", "procedural"]
+        },
+        {
+          "id": 15,
+          "title": "Unique Item Database",
+          "description": "50+ unique items, set items (3-5 sets), legendary affixes, drop rate mechanics.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 5000,
+          "cost": 0.12,
+          "tags": ["loot", "phase-3", "design"]
+        },
+        {
+          "id": 16,
+          "title": "Loot Generation Engine",
+          "description": "Seeded RNG, enemy defeat loot, chest generation, level scaling, rarity distribution curves.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 6000,
+          "cost": 0.15,
+          "tags": ["loot", "phase-3", "core"]
+        },
+        {
+          "id": 17,
+          "title": "Item Display & Comparison",
+          "description": "Detailed tooltips, stat comparison on hover, rarity-based visuals, icon system.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 4000,
+          "cost": 0.10,
+          "tags": ["loot", "phase-3", "ui"]
+        },
+        {
+          "id": 18,
+          "title": "Crafting System Architecture",
+          "description": "Recipe database, item combination, enhancement mechanics, material tracking, result calculation.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 6000,
+          "cost": 0.15,
+          "tags": ["loot", "phase-3", "crafting"]
+        },
+        {
+          "id": 19,
+          "title": "Inventory Management",
+          "description": "Grid-based inventory UI (Diablo-style), sorting/filtering, quick equip, stashing, encumbrance.",
+          "status": "planned",
+          "priority": "medium",
+          "estimatedTokens": 4000,
+          "cost": 0.10,
+          "tags": ["loot", "phase-3", "ui"]
+        },
+        {
+          "id": 20,
+          "title": "Skill Tree Architecture",
+          "description": "3+ skill trees, skill node types, point allocation, respec mechanics, unlock conditions.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 8000,
+          "cost": 0.20,
+          "tags": ["progression", "phase-4", "core"]
+        },
+        {
+          "id": 21,
+          "title": "Passive Skill System",
+          "description": "Passive stat bonuses, multiplicative/additive scaling, interaction rules, calculation engine.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 5000,
+          "cost": 0.12,
+          "tags": ["progression", "phase-4"]
+        },
+        {
+          "id": 22,
+          "title": "Active Ability System",
+          "description": "Ability templates (damage/heal/utility), cooldown/mana, stat scaling, upgrade paths, combos.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 7000,
+          "cost": 0.18,
+          "tags": ["progression", "phase-4", "combat"]
+        },
+        {
+          "id": 23,
+          "title": "Build Synergy Engine",
+          "description": "Calculate multipliers & bonuses, synergy detection, build recommendations, stat conversion.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 6000,
+          "cost": 0.15,
+          "tags": ["progression", "phase-4"]
+        },
+        {
+          "id": 24,
+          "title": "Experience & Leveling",
+          "description": "XP gain formulas, level-up curves, attribute allocation, skill point rewards, level gating.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 4000,
+          "cost": 0.10,
+          "tags": ["progression", "phase-4"]
+        },
+        {
+          "id": 25,
+          "title": "Dungeon-to-Crafting Loop",
+          "description": "Better loot on deeper floors, recipe unlocks, gear requirements, upgrade chains (loop gameplay).",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 5000,
+          "cost": 0.12,
+          "tags": ["progression", "phase-4", "core-loop"]
+        },
+        {
+          "id": 26,
+          "title": "Ascension/Prestige System",
+          "description": "New Game+ mode with scaling, prestige points, permanent unlocks, season leaderboards.",
+          "status": "planned",
+          "priority": "medium",
+          "estimatedTokens": 4000,
+          "cost": 0.10,
+          "tags": ["progression", "phase-4", "endgame"]
+        },
+        {
+          "id": 27,
+          "title": "Action Combat System",
+          "description": "Real-time movement, attack animations with hit feedback, knockback, invulnerability frames, attack speed.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 8000,
+          "cost": 0.20,
+          "tags": ["combat", "phase-5", "core"]
+        },
+        {
+          "id": 28,
+          "title": "Enemy AI Overhaul",
+          "description": "Behavior tree system, difficulty-scaled AI, boss patterns, group tactics, weakness systems.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 7000,
+          "cost": 0.18,
+          "tags": ["combat", "phase-5", "ai"]
+        },
+        {
+          "id": 29,
+          "title": "Damage & Hit Calculation",
+          "description": "Critical strike system, dodge/evasion, armor/mitigation, elemental damage, type interactions.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 5000,
+          "cost": 0.12,
+          "tags": ["combat", "phase-5"]
+        },
+        {
+          "id": 30,
+          "title": "Status Effects Expansion",
+          "description": "20+ effect types, visual indicators, duration/potency scaling, immunity, stacking rules.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 6000,
+          "cost": 0.15,
+          "tags": ["combat", "phase-5", "effects"]
+        },
+        {
+          "id": 31,
+          "title": "Ability Effects & Visuals",
+          "description": "Particle effects per ability, sound design, screen shake, health animations, damage numbers.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 6000,
+          "cost": 0.15,
+          "tags": ["combat", "phase-5", "visual-effects"]
+        },
+        {
+          "id": 32,
+          "title": "HUD & Real-time Feedback",
+          "description": "Health/mana bars, ability cooldowns, status icons, combat log, DPS/healing meters.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 4000,
+          "cost": 0.10,
+          "tags": ["combat", "phase-5", "ui"]
+        },
+        {
+          "id": 33,
+          "title": "Sound & Music System",
+          "description": "Background music, combat encounter music, ability/enemy sounds, UI feedback sounds.",
+          "status": "planned",
+          "priority": "medium",
+          "estimatedTokens": 3000,
+          "cost": 0.08,
+          "tags": ["combat", "phase-5", "audio"]
+        },
+        {
+          "id": 34,
+          "title": "Advanced Dungeon Generation",
+          "description": "Biome-based themes, room features (traps, hazards, chests), boss encounters, secret rooms.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 7000,
+          "cost": 0.18,
+          "tags": ["procedural", "phase-6", "core"]
+        },
+        {
+          "id": 35,
+          "title": "Dynamic Enemy Scaling",
+          "description": "Per-floor difficulty curves, player stat-aware scaling, rare enemies, champions, balance verification.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 5000,
+          "cost": 0.12,
+          "tags": ["procedural", "phase-6", "scaling"]
+        },
+        {
+          "id": 36,
+          "title": "Seeded Run System",
+          "description": "Run seed generation, leaderboard submission, community seed sharing, speedrun tracking.",
+          "status": "planned",
+          "priority": "medium",
+          "estimatedTokens": 3000,
+          "cost": 0.08,
+          "tags": ["procedural", "phase-6", "replayability"]
+        },
+        {
+          "id": 37,
+          "title": "Procedural Depth",
+          "description": "10,000+ unique item permutations, enemy variety, room layouts, random events.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 4000,
+          "cost": 0.10,
+          "tags": ["procedural", "phase-6"]
+        },
+        {
+          "id": 38,
+          "title": "Performance Optimization",
+          "description": "Three.js optimization, mesh batching, LOD systems, asset streaming, memory cleanup.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 6000,
+          "cost": 0.15,
+          "tags": ["polish", "phase-7", "optimization"]
+        },
+        {
+          "id": 39,
+          "title": "Game Balance (Opus)",
+          "description": "Balance loot drops, enemy difficulty, skill/abilities, progression curve, win rate analysis.",
+          "status": "planned",
+          "priority": "critical",
+          "estimatedTokens": 10000,
+          "cost": 0.25,
+          "tags": ["polish", "phase-7", "balance"]
+        },
+        {
+          "id": 40,
+          "title": "Bug Fixes & Polish",
+          "description": "Critical bug fixes, edge cases, input responsiveness, network stability, UI refinement.",
+          "status": "planned",
+          "priority": "high",
+          "estimatedTokens": 5000,
+          "cost": 0.12,
+          "tags": ["polish", "phase-7", "bugs"]
+        },
+        {
+          "id": 41,
+          "title": "Accessibility & Localization",
+          "description": "Color blind modes, difficulty presets, key remapping, subtitles, localization prep.",
+          "status": "planned",
+          "priority": "medium",
+          "estimatedTokens": 3000,
+          "cost": 0.08,
+          "tags": ["polish", "phase-7", "accessibility"]
+        }
       ]
     }
   },
   "lastSession": {
-    "date": "2026-02-08",
-    "duration": "4 hours",
+    "date": "2026-02-13",
+    "duration": "2 hours",
     "achievements": [
-      "Built premium UI (landing, auth, dashboard)",
-      "Google OAuth working",
-      "Supabase PostgreSQL connected",
-      "Battle system implemented",
-      "Redesigned command center dashboard"
+      "Created comprehensive 3D Roguelike transformation plan",
+      "Designed 41 tasks across 7 phases",
+      "Estimated 231,000 tokens ($5.80 cost)",
+      "Integrated tasks into Command Center dashboard",
+      "Applied Web Dev Master + Game Dev Master patterns"
     ],
     "nextPriorities": [
-      "Deploy backend to Railway",
-      "Design PVE dungeons",
-      "Implement crafting system",
-      "Balance game economy"
+      "Phase 1: State management (Zustand + Socket.io)",
+      "Phase 2: 3D rendering (Three.js setup)",
+      "Phase 3: Loot system (procedural generation)"
     ]
   },
-  "notes": "MVP complete! 5/12 tasks done (42%). Budget healthy: $17.85 available, ~$1.77 estimated remaining. Next: PVE content with Haiku."
+  "notes": "3D Roguelike Transformation: 41 strategic tasks, 12-week timeline, $5.80 estimated cost. Inspired by Hades (combat), Diablo (loot), Path of Exile (progression), Borderlands (rarity tiers)."
 }
