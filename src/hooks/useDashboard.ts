@@ -8,21 +8,13 @@ export const useDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load from localStorage on mount
+  // Load from tracker.json on mount (always fetch latest)
   useEffect(() => {
     const loadDashboard = async () => {
       try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          setDashboard(parsed);
-          setLoading(false);
-          return;
-        }
-        
-        // Load from tracker.json if available
+        // Always fetch tracker.json first for latest data
         try {
-          const response = await fetch('/tracker.json');
+          const response = await fetch('/tracker.json?v=' + Date.now()); // Cache buster
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
           
           const data = await response.json();
@@ -32,26 +24,40 @@ export const useDashboard = () => {
             lastUpdated: data.lastUpdated || new Date().toISOString(),
           };
           setDashboard(transformed);
+          // Also save to localStorage for offline access
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(transformed));
+          setLoading(false);
+          return;
         } catch (fetchErr) {
-          console.warn('tracker.json not found, using empty state:', fetchErr);
-          // Create default empty state with sample project
-          const defaultDashboard: Dashboard = {
-            projects: {
-              'sample-project': {
-                id: 'sample-project',
-                name: 'Sample Project',
-                emoji: '🎯',
-                description: 'Welcome to your command center! Start by adding tasks to track your work.',
-                phase: 'Getting Started',
-                color: 'bg-blue-600',
-                tasks: [],
-              },
-            },
-            costTracking: { totalBudget: 100, spent: 0, remaining: 100 },
-            lastUpdated: new Date().toISOString(),
-          };
-          setDashboard(defaultDashboard);
+          console.warn('tracker.json fetch failed, trying localStorage:', fetchErr);
         }
+        
+        // Fallback to localStorage if tracker.json fetch fails
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setDashboard(parsed);
+          setLoading(false);
+          return;
+        }
+        
+        // Create default empty state with sample project
+        const defaultDashboard: Dashboard = {
+          projects: {
+            'sample-project': {
+              id: 'sample-project',
+              name: 'Sample Project',
+              emoji: '🎯',
+              description: 'Welcome to your command center! Start by adding tasks to track your work.',
+              phase: 'Getting Started',
+              color: 'bg-blue-600',
+              tasks: [],
+            },
+          },
+          costTracking: { totalBudget: 100, spent: 0, remaining: 100 },
+          lastUpdated: new Date().toISOString(),
+        };
+        setDashboard(defaultDashboard);
       } catch (err) {
         console.error('Failed to load dashboard:', err);
         setError('Failed to load dashboard data');
